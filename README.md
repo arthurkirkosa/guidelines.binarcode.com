@@ -7,3 +7,5 @@ The guidelines cover git workflow, code style & guidelines, testing and other li
 
 All pages are written in markdown and hosted on [GitHub](https://github.com/BinarCode/guidelines.binarcode.com), so edits and improvements are welcome.
 Take into consideration that the things mentioned here are reflect our own workflow and ideas, therefore we might be nitpicking on substantial changes.
+
+ [GetStarted](/1.0/)
