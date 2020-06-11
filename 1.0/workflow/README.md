@@ -1,4 +1,4 @@
-## Version Control
+# Version Control
 
 Since we're a small team, our git workflow doesn't have restrictions out of this world,
 however some common sense best practices should be followed in order to have a clean and readable version control workflow.
@@ -123,9 +123,9 @@ Commits should be descriptive. Always use present tense in commit messages.
 #### Squashing already pushed commits
 
 Use case: You have 4 redundant commits and want to convert them to 1.
-git reset --soft <commit> (<commit> is the hash of the start commit for squash)
-git commit -m "your new message"
-git push --force
+- `git reset --soft <commit> (<commit> is the hash of the start commit for squash)`
+- `git commit -m "your new message"`
+- `git push --force`
 
 #### Cleaning up local branches
 

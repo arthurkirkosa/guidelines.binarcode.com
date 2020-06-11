@@ -3,7 +3,10 @@
   "description": "Binar Code Guidelines",
   "scripts": {
     "dev": "vuepress dev",
-    "build": "vuepress build"
+    "build": "vuepress build",
+    "start": "npm run docs:dev",
+    "docs:build": "vuepress build",
+    "docs:dev": "vuepress dev"
   },
   "devDependencies": {
     "vuepress": "^1.4.0"
