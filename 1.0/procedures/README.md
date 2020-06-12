@@ -82,6 +82,7 @@
 - [ ] Remove development DNS record
 - [ ] Check dns propagation with https://www.whatsmydns.net/
 - [ ] Verify Tag Manager / Analytics have been correctly set up
+- [ ] Make sure you can upload large media files [see this](/hints/)
 
 ### Google Search Console
 - [ ] Submit all www/non-www http/https variations

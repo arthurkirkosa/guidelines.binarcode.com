@@ -27,6 +27,13 @@ module.exports = [
       "",
     ])
   },
+  {
+    title: "Hints",
+    collapsable: true,
+    children: prefix("hints", [
+      "",
+    ])
+  },
 ];
 
 function prefix(prefix, children) {

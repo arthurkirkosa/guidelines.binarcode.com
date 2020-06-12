@@ -6,43 +6,48 @@ There are required 2 configurations:
 
 1. websever (nginx) - configuration
 
-```php
+```bash
 sudo vi /etc/nginx/nginx.conf
 ```
 
 In the `http` or `server` section, add this: 
 
-```php
+```bash
 client_max_body_size 100M;
 ```
 
 
-2. php configuration
+2. PHP Configuration
 
-- php fpm
+- PHP FPM
 
-```php
+:::tip Check your PHP FPM configuration
+
 grep -E "upload_max_filesize|memory_limit|post_max_size" /etc/php/7.4/fpm/php.ini
-```
 
-add this in the `php.ini`:
+:::
 
-```php
+
+
+Add this in the `php.ini`:
+
+```bash
 memory_limit = 512M
 post_max_size = 100M
 upload_max_filesize = 100M
 ```
 
-- php CLI - this is optional:
+- PHP CLI (optional):
 
+:::tip Check your PHP CLI configuration
 
-```php
 grep -E "upload_max_filesize|memory_limit|post_max_size" /etc/php/7.4/cli/php.ini
-```
+
+:::
 
 add this in the `php.ini`:
 
-```php
+```bash
 memory_limit = 512M
 post_max_size = 100M
 upload_max_filesize = 100M
