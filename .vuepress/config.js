@@ -1,7 +1,7 @@
 module.exports = {
   title: "BinarCode guildelines",
   description: "Best practices & workflows",
-  base: "/docs/",
+  base: "/",
 
   serviceWorker: true,
 
