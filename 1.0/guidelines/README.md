@@ -62,7 +62,7 @@ class Url
      *
      * @param string $url
      *
-     * @return \Spatie\Url\Url
+     * @return \BinarCode\Url\Url
      */
     public static function fromString(string $url): Url
     {
@@ -79,7 +79,7 @@ Always use fully qualified class names in docblocks.
 /**
  * @param string $url
  *
- * @return \Spatie\Url\Url
+ * @return \BinarCode\Url\Url
  */
 
 // Bad
@@ -98,7 +98,7 @@ Docblocks for class variables are required, as there's currently no other way to
 
 class Foo
 {
-    /** @var \Spatie\Url\Url */
+    /** @var \BinarCode\Url\Url */
     private $url;
 
     /** @var string */
@@ -134,11 +134,11 @@ If a variable has multiple types, the most common occurring type should be first
 ```php
 // Good
 
-/** @var \Spatie\Goo\Bar|null */
+/** @var \BinarCode\Goo\Bar|null */
 
 // Bad
 
-/** @var null|\Spatie\Goo\Bar */
+/** @var null|\BinarCode\Goo\Bar */
 ```
 
 ## Strings
