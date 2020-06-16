@@ -10,6 +10,7 @@ module.exports = [
     children: prefix("workflow", [
       "",
       "frontend-setup",
+      "laravel-api-setup",
     ])
   },
   {
