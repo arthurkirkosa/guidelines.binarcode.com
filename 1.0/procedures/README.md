@@ -1,4 +1,4 @@
-# Go - Live - BINAR_LIVE_01
+# BINAR_LIVE_01
 
 [[toc]]
 
