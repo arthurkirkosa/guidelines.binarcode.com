@@ -212,4 +212,12 @@ binarcode.com.		13354	IN	A	104.198.14.52
 ;; MSG SIZE  rcvd: 58
 ```
 
+### dig short
+
+As we can see `dig` gives a lot of information. There is a handy options you can get back exactly what your're looking for: 
+
+
+```bash
+dig +short A binarcode.com
+```
 
