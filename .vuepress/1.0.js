@@ -35,6 +35,7 @@ module.exports = [
     collapsable: true,
     children: prefix("hints", [
       "",
+      "host-command",
     ])
   },
 ];
