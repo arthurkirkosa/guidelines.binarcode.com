@@ -179,6 +179,20 @@ binarcode.com name server ns3.mxserver.ro.
 binarcode.com name server ns1.mxserver.ro
 ```
 
+### ip address for nameserver
+
+Command: 
+
+```bash
+host -t a ns3.mxserver.ro
+```
+
+Output:
+
+```bash
+ns3.mxserver.ro has address 159.89.237.53
+```
+
 
 ## DIG command
 
