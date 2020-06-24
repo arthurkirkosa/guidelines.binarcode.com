@@ -180,6 +180,36 @@ binarcode.com name server ns1.mxserver.ro
 ```
 
 
+## DIG command
 
+A similar command is the `dig` command. However, it gives you more information unless `host` does, `host` feels more clean, it gives you want you need and nothing more.
+
+Command: 
+```bash
+dig A binarcode
+```
+
+Output:
+
+```bash
+; <<>> DiG 9.10.6 <<>> A binarcode.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 24895
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;binarcode.com.			IN	A
+
+;; ANSWER SECTION:
+binarcode.com.		13354	IN	A	104.198.14.52
+
+;; Query time: 30 msec
+;; SERVER: 2a02:2f0c:8000:3::1#53(2a02:2f0c:8000:3::1)
+;; WHEN: Wed Jun 24 19:52:08 EEST 2020
+;; MSG SIZE  rcvd: 58
+```
 
 
