@@ -235,3 +235,11 @@ As we can see `dig` gives a lot of information. There is a handy options you can
 dig +short A binarcode.com
 ```
 
+Output:
+
+```bash
+104.198.14.52
+```
+
+
+
