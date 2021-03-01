@@ -12,7 +12,6 @@ module.exports = [
       "frontend-setup",
       "laravel-api-setup",
       "dev-api-ci-setup",
-      "code-review",
     ])
   },
   {
