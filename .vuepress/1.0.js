@@ -36,6 +36,7 @@ module.exports = [
     children: prefix("hints", [
       "",
       "host-command",
+      "resize-forge-ubuntu",
     ])
   },
 ];
