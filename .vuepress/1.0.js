@@ -28,6 +28,7 @@ module.exports = [
     children: prefix("procedures", [
       "",
       "setup-new-project",
+      "test-procedures",
     ])
   },
   {
@@ -36,6 +37,7 @@ module.exports = [
     children: prefix("hints", [
       "",
       "host-command",
+      "resize-forge-ubuntu",
     ])
   },
 ];
