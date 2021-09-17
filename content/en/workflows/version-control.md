@@ -92,11 +92,11 @@ Ideally a PR should contain a screenshot of the work or link to the exact page/c
 
 #### Pull Request Size
 
-An easy to review PR should be small in size. Keeping a PR under `+500` (with exceptions for generated files) diffs is the best in order
-to avoid the reviewer missing or skipping important parts or just the PR merge being delayed.
+An easy to review PR should be small in size. Keeping a PR under `+500` (with exceptions for generated files)
+diffs is the best in order to avoid the reviewer missing or skipping important parts or just the PR merge being delayed.
 
-A big PR will also cause a lot of questions and adjustments which might lead to merge conflicts, delays in merging it and other issues.
-If you have a big feature, consider splitting it into multiple chunks rather than opening a huge PR.
+A big PR will also cause a lot of questions and adjustments which might lead to merge conflicts, delays in merging
+it and other issues. If you have a big feature, consider splitting it into multiple chunks rather than opening a huge PR.
 
 #### Formatting
 
@@ -129,7 +129,7 @@ Commits should be descriptive. Always use present tense in commit messages.
 `wip` `Fixes` `commit` `please make this work`
 
 <badge>Good</badge>
-- `[TASK-3] Update depedencies`
+- `[TASK-3] Update dependencies`
 - `[TASK-12] Implement Modal component`
 - `Fix price formatting in Checkout.vue`
 
