@@ -2,8 +2,8 @@
   "title": "Nuxt Content",
   "url": "",
   "logo": {
-    "light": "/logo-light.svg",
-    "dark": "/logo-dark.svg"
+    "light": "/logo-dark.svg",
+    "dark": "/logo.png"
   },
   "github": "BinarCode/guidelines.binarcode.com",
   "twitter": "@binar_code"
