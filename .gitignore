@@ -2,3 +2,12 @@
 /.vuepress/dist
 .DS_Store
 .idea
+node_modules
+*.iml
+*.log*
+.nuxt
+.vscode
+coverage
+dist
+sw.*
+.env
