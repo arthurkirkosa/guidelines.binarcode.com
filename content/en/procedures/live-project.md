@@ -4,12 +4,12 @@ description: 'Go-live is the time at which something becomes available for use. 
 position: 7
 category: 'Procedures'
 testsList:
-- Desktop -> test on latest versions of Chrome, IE/Edge, Firefox, Safari
-- Mobile -> test on latest versions of Mobile Safari, Android
+- Desktop:<span> test on latest versions of Chrome, IE/Edge, Firefox, Safari</span>
+- Mobile:<span> test on latest versions of Mobile Safari, Android</span>
 assetsList:
 - Ensure that all sources start with  https://
 - Ensure that the browser list is properly configured for autoprefixer and babel-preset-env (ie moz- prefix)
-- When using PurgeCSS -> check if layout is preserved.
+- When using PurgeCSS:check if layout is preserved.
 scriptsList:
 - Ensure you have  yarn.lock (or package-lock.json) present
 - Check JS lint errors.
@@ -36,8 +36,8 @@ componentsList:
 - Check info windows
 - Prevent zoom out beyond 1x world
 - Try clicking on markers
-- Forms -> fill out with wrong/right values
-- Video ->  check with sound on
+- Forms:<span> fill out with wrong/right values</span>
+- Video:<span> check with sound on</span>
 - Check layout of emails
 backendNovaList:
 - Ensure you have the .env.example file with all required variables, but without values
@@ -65,7 +65,7 @@ servicesList:
 - Try out visiting <code>http</code>, should redirect to <code>https</code>
 - Verify that all http status codes are ok with <a target="blank" href="https://github.com/spatie/http-status-check">https://github.com/spatie/http-status-check</a>  
 - Scan for mixed content with  <a target="blank" href=" https://github.com/spatie/mixed-content-scanner-cli"> https://github.com/spatie/mixed-content-scanner-cli</a> 
-- Verify that indexing is not prohibited with <code>x-robots-tag: none</code> by checking <code>curl -I https://url | grep 'x-robots-tag'</code>. Allow robots in <code>.env</code>
+- Verify that indexing is not prohibited with <code>x-robots-tag:none</code> by checking <code>curl -I https://url | grep 'x-robots-tag'</code>. Allow robots in <code>.env</code>
 - Remove development DNS record
 - Check dns propagation with <a target="blank" href="https://www.whatsmydns.net/">https://www.whatsmydns.net/</a>  
 - Verify Tag Manager / Analytics have been correctly set up
