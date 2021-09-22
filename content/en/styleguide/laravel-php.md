@@ -1,6 +1,6 @@
 ---
 title: Laravel & PHP
-description: ''
+description: 'A style guide establishes standard style requirements to improve communication by ensuring consistency both within a document, and across multiple documents.'
 position: 1
 category: 'Style Guide'
 ---

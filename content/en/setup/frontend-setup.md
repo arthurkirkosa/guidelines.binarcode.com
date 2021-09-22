@@ -1,6 +1,6 @@
 ---
 title: Frontend Setup
-description: ''
+description: 'Vue is a progressive framework for building user interfaces. Vue is designed from the ground up to be incrementally adoptable.'
 position: 1
 category: Setup
 ---

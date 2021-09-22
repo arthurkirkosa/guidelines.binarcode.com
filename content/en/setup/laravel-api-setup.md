@@ -1,6 +1,6 @@
 ---
 title: Laravel API Setup
-description: ''
+description: 'Laravel is a vital PHP framework used in creating interactive websites and APIs. It supports numerous dependencies and templates. Laravel lays a foundation that allows you, as a developer, to focus on more demanding things.'
 position: 2
 category: Setup
 ---

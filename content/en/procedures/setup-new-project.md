@@ -1,6 +1,6 @@
 ---
 title: Project Kick Off
-description: ''
+description: 'A project kick-off meeting is the first meeting with the project team and the client of the project where applicable. This meeting is the time to establish common goals and the purpose of the project.'
 position: 2
 category: 'Procedures'
 ---

@@ -1,6 +1,6 @@
 ---
 title: API CI (Continuous integration)
-description: ''
+description: 'Continuous integration (CI) is the practice of automating the integration of code changes from multiple contributors into a single software project.'
 position: 3
 category: Setup
 ---

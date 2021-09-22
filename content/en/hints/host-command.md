@@ -1,6 +1,6 @@
 ---
 title: DNS Lookup
-description: ''
+description: 'DNS Lookup tool finds all DNS records of a given domain name.'
 position: 2
 category: 'Backend Hints'
 ---
