@@ -1,7 +1,7 @@
 ---
 title: Version Control
 description: 'Version control software keeps track of every modification to the code in a special kind of database.'
-position: 1
+position: 5
 category: 'WorkFlows'
 ---
 

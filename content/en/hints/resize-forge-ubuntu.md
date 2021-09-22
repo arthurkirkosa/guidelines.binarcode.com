@@ -1,7 +1,7 @@
 ---
 title: Resize the filesystem of a forge ubuntu machine
 description: 'How to resize the filesystem of a forge ubuntu machine'
-position: 3
+position: 11
 category: 'Backend Hints'
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Testing Procedures
 description: 'A test procedure is a formal specification of test cases to be applied to one or more target program modules. '
-position: 3
+position: 8
 category: 'Procedures'
 ---
 

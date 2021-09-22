@@ -1,7 +1,7 @@
 ---
 title: Going Live
 description: 'Go-live is the time at which something becomes available for use. In software development, go-live is the point at which code moves from the test environment to the production environment.'
-position: 2
+position: 7
 category: 'Procedures'
 ---
 
