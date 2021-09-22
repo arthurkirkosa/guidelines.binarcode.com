@@ -2,7 +2,7 @@
 title: DNS Lookup
 description: ''
 position: 2
-category: 'Hints'
+category: 'Backend Hints'
 ---
 
 `host` is a very useful MacOs command, it helps you to lookup for any DNS record right from your terminal. 

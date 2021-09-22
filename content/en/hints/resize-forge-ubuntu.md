@@ -2,7 +2,7 @@
 title:  Resize the filesystem of a forge ubuntu machine
 description: ''
 position: 3
-category: 'Hints'
+category: 'Backend Hints'
 ---
 
 Prerequisites:
