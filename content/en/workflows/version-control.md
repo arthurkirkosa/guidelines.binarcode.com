@@ -12,11 +12,11 @@ practices should be followed in order to have a clean and readable version contr
 
 Repositories should have descriptive names, ideally the domain they are hosted on.
 
-<badge>Bad</badge>
+<base-badge type="danger">Bad</base-badge>
 
 `website` `frontend` `client-app`
 
-<badge>Good</badge>
+<base-badge >Good</base-badge >
 
 `binarcode.com` `api.binarcode.com` `binarcode-admin`
 
@@ -29,11 +29,11 @@ Each project should have a protected `master` and `develop` branch. After initia
 Branches should be always up to date with base branch and have no merge conflicts. Make sure your branch doesn't stay
 behind more than 5 commits from the base branch.
 
-<badge>Bad</badge>
+<base-badge type="danger">Bad</base-badge>
 
 `fix` `bug-fixes` `some-changes`
 
-<badge>Good</badge>
+<base-badge>Good</base-badge >
 
 `TASK-23` `feat/contact-page` `fix/route-names`
 
@@ -54,13 +54,13 @@ not available and there's an urgent fix.
 
 #### Pull Request Title
 
-<badge>Bad</badge>
+<base-badge type="danger">Bad</base-badge>
 - `fixes`
 - `bug-fixes`
 - `task-34`
 - `homepage fix`
 
-<badge>Good</badge>
+<base-badge>Good</base-badge>
 - `[TASK-23] Contact page implementation`
 - `[TASK-4] Modal component`
 - `Fixes & improvements for shopping cart`
@@ -77,12 +77,12 @@ Provide notes or remarks about special things that a reviewer should pay attenti
 Ideally a PR should contain a screenshot of the work or link to the exact page/component/set of changes that have been done.
 
 
-<badge>Bad</badge>
+<base-badge type="danger">Bad</base-badge>
 - `Blank description`
 - `Fixes`
 - `Logic for auth`
 
-<badge>Good</badge>
+<base-badge>Good</base-badge>
 - `Created a new global search in the admin based on route titles and descriptions.
    This search will always be on top right on every page so it's easy to access. + screenshot`
 
@@ -124,11 +124,11 @@ Make sure to delete branch after merging.
 
 Commits should be descriptive. Always use present tense in commit messages.
 
-<badge>Bad</badge>
+<base-badge type="danger">Bad</base-badge>
 
 `wip` `Fixes` `commit` `please make this work`
 
-<badge>Good</badge>
+<base-badge>Good</base-badge>
 - `[TASK-3] Update dependencies`
 - `[TASK-12] Implement Modal component`
 - `Fix price formatting in Checkout.vue`
