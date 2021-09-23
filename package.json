@@ -2,13 +2,13 @@
   "name": "guidelines.binarcode.com",
   "description": "Binar Code Guidelines",
   "scripts": {
-    "dev": "vuepress dev",
-    "build": "vuepress build",
-    "start": "npm run docs:dev",
-    "docs:build": "vuepress build",
-    "docs:dev": "vuepress dev"
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
   },
-  "devDependencies": {
-    "vuepress": "^1.4.0"
+  "dependencies": {
+    "@nuxt/content-theme-docs": "0.10.1",
+    "nuxt": "^2.15.2"
   }
 }

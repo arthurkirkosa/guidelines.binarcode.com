@@ -1,0 +1,10 @@
+{
+  "title": "BinarCode Guidelines",
+  "url": "https://www.binarcode.com/",
+  "logo": {
+    "light": "/logo-dark.svg",
+    "dark": "/logo.png"
+  },
+  "github": "BinarCode/guidelines.binarcode.com",
+  "twitter": "@binar_code"
+}

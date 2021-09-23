@@ -1,11 +1,27 @@
-# Preface
+# binarcode.gudelines
 
-### This site contains a set of guidelines we use to bring our projects to a good end. We decided to document our workflow because consistency is one of the most valuable traits of maintainable software.
+## Setup
 
-This documentation exists to improve ourselves and for giving future colleagues a reference to our way of doing things.
-The guidelines cover git workflow, code style & guidelines, testing and other little things we consider worth documenting in order to help us provide stable, consistent and high quality software.
+Install dependencies:
 
-All pages are written in markdown and hosted on [GitHub](https://github.com/BinarCode/guidelines.binarcode.com), so edits and improvements are welcome.
-Take into consideration that the things mentioned here are reflect our own workflow and ideas, therefore we might be nitpicking on substantial changes.
+```bash
+npm run install
+```
 
- [GetStarted](/1.0/)
+## Development
+
+```bash
+npm run dev
+```
+
+## Static Generation
+
+This will create the `dist/` directory for publishing to static hosting:
+
+```bash
+npm run generate
+```
+
+To preview the static generated app, run `npm run start`
+
+For detailed explanation on how things work, checkout [nuxt/content](https://content.nuxtjs.org) and [@nuxt/content theme docs](https://content.nuxtjs.org/themes-docs).
