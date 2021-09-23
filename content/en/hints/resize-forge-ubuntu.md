@@ -16,13 +16,13 @@ Goal:
 Steps:
 - Go into your aws account, select the EC2 instance, and check the `Storage` tab down bellow: 
 
-<img src="/aws-ssd.png" width="320" height="320" alt="AWS ec2 Storage"/>
+<img src="/img-api-ci/aws-ssd.png" width="320" height="320" alt="AWS ec2 Storage"/>
 
 - Click to the `Volume ID` column, and go into the EBS volume
 
 - Choose `Actions -> Modify Volume` action: 
 
-<img src="/modify-volume.png" width="320" height="320" alt="Modify Volume]"/>
+<img src="/img-api-ci/modify-volume.png" width="320" height="320" alt="Modify Volume]"/>
 
 - Input 50 GB and save it.
 

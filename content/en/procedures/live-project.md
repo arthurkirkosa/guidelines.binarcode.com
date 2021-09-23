@@ -144,5 +144,5 @@ testingList:
 ## Testing & QA
 <base-list :list="testingList"></base-list>
 
-<img src="/bug-report-format.png" width="480" height="480" alt="Bug Report Format"/>
+<img src="/img-api-ci/bug-report-format.png" width="480" height="480" alt="Bug Report Format"/>
 

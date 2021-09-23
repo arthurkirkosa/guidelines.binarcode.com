@@ -6,9 +6,5 @@ export default theme({
   },
   content: {
     liveEdit: false
-  },
-  head: {
-    title: 'BinarCode Guidelines',
-    link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
   }
 })
