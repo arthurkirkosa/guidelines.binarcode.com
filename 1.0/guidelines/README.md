@@ -28,6 +28,8 @@ You should type a property whenever possible. Don't use a docblock.
 class Foo
 {
     public string $bar;
+    
+    public User $user;
 }
 
 // bad
@@ -35,6 +37,9 @@ class Foo
 {
     /** @var string */
     public $bar;
+    
+    /** @var User */
+    public $user;
 }
 ```
 
