@@ -147,3 +147,24 @@ Use case: You have 4 redundant commits and want to convert them to 1.
 After a while, you'll end up with a few stale branches in your local repository.
 Branches that don't exist upstream can be cleaned up with `git remote prune origin`
 If you want to ensure you're not about to delete something important, add a `--dry-run` flag.
+
+### PR Template
+
+Create a file in the root of your app: `pull_request_template.md`
+
+The content coult be similar like this:
+
+```markdown
+### Pull request description
+<i>Description</i>
+
+### Link to ticket or discussion
+<i>Link</i>
+
+### Type
+- [ ] New feature
+- [ ] Refactoring
+- [ ] Bug-fix
+- [ ] DevOps
+- [ ] Testing
+```
