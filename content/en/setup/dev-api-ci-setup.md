@@ -114,3 +114,18 @@ In terms of having the website or web API www public, we need an A record setup.
  Ask the domain owner to add an A record with the server IP (from Forge) and subdomain value into his DNS provider (ie `A 1.2.3.4 api.sample.com`)
  
  The propagation usually take around 1hour (even officially it says around 24h).
+
+### Extending filesystem
+
+[Extend the disk](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html) in aws console to 50Gb. 
+
+Login into server using ssh:
+
+run: 
+`df -h` - check the current size (default is 20Gb)
+`lsblk`
+`sudo growpart /dev/nvme0n1 1`
+`sudo resize2fs /dev/root`
+`df -h` - check the current size (now should be 50Gb)
+
+
