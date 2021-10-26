@@ -1,20 +1,20 @@
 ---
 title: Laravel & PHP
-description: 'A style guide establishes standard style requirements to improve communication by ensuring consistency both within a document, and across multiple documents.'
-position: 4
+description: 'A style guide establishes standard style requirements to improve communication by ensuring consistency both within a document, and across multiple documents.' 
+position: 4 
 category: 'Style Guide'
 ---
 
 ## About Laravel
 
-First and foremost, Laravel provides the most value when you write things the way Laravel intended you to write.
-If there's a documented way to achieve something, follow it. Whenever you do something differently, make sure you have
-a justification for *why* you didn't follow the defaults.
+First and foremost, Laravel provides the most value when you write things the way Laravel intended you to write. If
+there's a documented way to achieve something, follow it. Whenever you do something differently, make sure you have a
+justification for *why* you didn't follow the defaults.
 
 ## General PHP Rules
 
-Code style must follow [PSR-1](http://www.php-fig.org/psr/psr-1/), [PSR-2](http://www.php-fig.org/psr/psr-2/) 
-and [PSR-12](https://www.php-fig.org/psr/psr-12/). Generally speaking, everything string-like that's not public-facing 
+Code style must follow [PSR-1](http://www.php-fig.org/psr/psr-1/), [PSR-2](http://www.php-fig.org/psr/psr-2/)
+and [PSR-12](https://www.php-fig.org/psr/psr-12/). Generally speaking, everything string-like that's not public-facing
 should use camelCase. Detailed examples on these are spread throughout the guide in their relevant sections.
 
 ### Class defaults
@@ -24,12 +24,13 @@ writing tests for any overwritten behaviour.
 
 ### Void return types
 
-If a method return nothing, it should be indicated with `void`.
-This makes it more clear to the users of your code what your intention was when writing it.
+If a method return nothing, it should be indicated with `void`. This makes it more clear to the users of your code what
+your intention was when writing it.
 
 ## Typed properties
 
-You should type a property whenever possible. Don't use a docblock.
+You should type a property whenever possible. Don't use a docblock. As we're using PHP 8.0+, all property types are
+supported, you can use `mixed` if you're not sure about the type.
 
 ```php
 // good
@@ -50,7 +51,7 @@ class Foo
 
 Don't use docblocks for methods that can be fully type hinted (unless you need a description).
 
-Only add a description when it provides more context than the method signature itself. Use full sentences for 
+Only add a description when it provides more context than the method signature itself. Use full sentences for
 descriptions, including a period at the end.
 
 ```php
@@ -100,29 +101,6 @@ Always use fully qualified class names in docblocks.
  */
 ```
 
-Docblocks for class variables are required, as there's currently no other way to typehint these.
-
-```php
-// Good
-
-class Foo
-{
-    /** @var \BinarCode\Url\Url */
-    private $url;
-
-    /** @var string */
-    private $name;
-}
-
-// Bad
-
-class Foo
-{
-    private $url;
-    private $name;
-}
-```
-
 When possible, docblocks should be written on one line.
 
 ```php
@@ -150,6 +128,55 @@ If a variable has multiple types, the most common occurring type should be first
 /** @var null|\BinarCode\Goo\Bar */
 ```
 
+## Constructor property promotion
+
+Use constructor property promotion if all properties can be promoted. To make it readable, put each one on a line of its
+own. Use a comma after the last one.
+
+```php
+// Good
+class MyClass {
+    public function __construct(
+        protected string $firstArgument,
+        protected string $secondArgument,
+    ) {}
+}
+
+// Bad
+class MyClass {
+    protected string $secondArgument
+
+    public function __construct(protected string $firstArgument, string $secondArgument)
+    {
+        $this->secondArgument = $secondArgument;
+    }
+}
+```
+
+## Traits
+
+Each applied trait should go on its own line, and the use keyword should be used for each of them. This will result in
+clean diffs when traits are added or removed.
+
+```php
+// Good
+
+class MyClass
+{
+    use TraitA;
+    use TraitB;
+}
+```
+
+```php
+// Bad
+
+class MyClass
+{
+    use TraitA, TraitB;
+}
+```
+
 ## Strings
 
 When possible prefer string interpolation above `sprintf` and the `.` operator.
@@ -163,7 +190,6 @@ $greeting = "Hi, I am {$name}.";
 // Bad
 $greeting = 'Hi, I am ' . $name . '.';
 ```
-
 
 ## Ternary operators
 
@@ -201,8 +227,8 @@ if ($condition) ...
 
 ### Happy path
 
-Generally a function should have its unhappy path first and its happy path last. In most cases this will cause the 
-happy path being in an unindented part of the function which makes it more readable.
+Generally a function should have its unhappy path first and its happy path last. In most cases this will cause the happy
+path being in an unindented part of the function which makes it more readable.
 
 ```php
 // Good
@@ -213,7 +239,6 @@ if (! $goodCondition) {
 
 // do work
 ```
-
 
 ```php
 // Bad
@@ -227,8 +252,8 @@ throw new Exception;
 
 ### Avoid else
 
-In general, `else` should be avoided because it makes code less readable. In most cases it can be refactored
-using early returns. This will also cause the happy path to go last, which is desirable.
+In general, `else` should be avoided because it makes code less readable. In most cases it can be refactored using early
+returns. This will also cause the happy path to go last, which is desirable.
 
 ```php
 // Good
@@ -264,11 +289,9 @@ else {
 }
 ```
 
-
 ### Compound ifs
 
 In general, separate `if` statements should be preferred over a compound condition. This makes debugging code easier.
-
 
 ```php
 // Good
@@ -294,12 +317,10 @@ if ($conditionA && $conditionB && $conditionC) {
 }
 ```
 
-
-
 ## Comments
 
-Comments should be avoided as much as possible by writing expressive code. If you do need to use a comment, 
-format it like this:
+Comments should be avoided as much as possible by writing expressive code. If you do need to use a comment, format it
+like this:
 
 ```php
 // There should be a space before a single line comment.
@@ -311,10 +332,35 @@ format it like this:
  */
 ```
 
+## Test classes
+
+### Naming unit test
+
+The unit test class name should be the same as the main class + `Test` suffix. Say we have to test
+the `ApproveItemAction` class, the test name should be:
+
+```php
+class ApproveItemActionTest
+```
+
+### Namespace
+
+The test class namespace should follow the main class namespace. Say your main class has the namespace:
+
+```php
+namespace App\Domains\Items\Actions\ApproveItemAction;
+```
+
+The unit test class should be placed in:
+
+```php
+namespace Tests\Domains\Items\Unit\ApproveItemAction;
+```
+
 ## Whitespace
 
-Statements should have to breathe. In general always add blank lines between statements, unless they're a sequence 
-of single-line equivalent operations. This isn't something enforceable, it's a matter of what looks best in its context.
+Statements should have to breathe. In general always add blank lines between statements, unless they're a sequence of
+single-line equivalent operations. This isn't something enforceable, it's a matter of what looks best in its context.
 
 ```php
 // Good
@@ -396,7 +442,7 @@ return [
 ];
 ```
 
-Avoid using the `env` helper outside of configuration files. Create a configuration value from the `env` 
+Avoid using the `env` helper outside of configuration files. Create a configuration value from the `env`
 variable like above.
 
 ## Artisan commands
@@ -411,8 +457,8 @@ php artisan delete-old-records
 php artisan deleteOldRecords
 ```
 
-A command should always give some feedback on what the result is. Minimally you should let the `handle`method spit 
-out a comment at the end indicating that all went well.
+A command should always give some feedback on what the result is. Minimally you should let the `handle`method spit out a
+comment at the end indicating that all went well.
 
 ```php
 // in a Command
@@ -447,8 +493,16 @@ Route::get('open-source', 'OpenSourceController@index')->name('openSource');
 </a>
 ```
 
-All routes have an http verb, that's why we like to put the verb first when defining a route. It makes a group of 
-routes very readable. Any other route options should come after it.
+You can separate a group of similar routes names using the `.` dot separator like this:
+
+```php
+Route::get('items', 'ItemsController@index')->name('items.index');
+Route::get('items/{id}', 'ItemsController@view')->name('items.show');
+Route::get('items/approved', 'ItemsController@approved')->name('items.showApproved');
+```
+
+All routes have an http verb, that's why we like to put the verb first when defining a route. It makes a group of routes
+very readable. Any other route options should come after it.
 
 ```php
 // good: all http verbs come first
@@ -478,6 +532,19 @@ Route::get('', 'HomeController@index');
 Route::get('/open-source', 'OpenSourceController@index');
 ```
 
+Route groups should be avoided, however, if you have to list of routes following the same middleware or pattern you can
+add a group. The group attributes should avoid the `prefix` attribute because it makes the search confusing. Inside
+the `group` callback always use the `Route` facade to define routes, this way you have type hint definition by the IDE
+and static analysis.
+
+```php
+Route::group([
+    'middleware' => 'api',
+], function() {
+    Route::get('items', ItemsController::class);
+});
+```
+
 ## Controllers
 
 Controllers that control a resource must use the plural resource name.
@@ -489,11 +556,11 @@ class PostsController
 }
 ```
 
-Try to keep controllers simple and stick to the default CRUD keywords 
+Try to keep controllers simple and stick to the default CRUD keywords
 (`index`, `create`, `store`, `show`, `edit`, `update`, `destroy`). Extract a new controller if you need other actions.
 
-In the following example, we could have `PostsController@favorite`, and `PostsController@unfavorite`, 
-or we could extract it to a separate `FavoritePostsController`.
+In the following example, we could have `PostsController@favorite`, and `PostsController@unfavorite`, or we could
+extract it to a separate `FavoritePostsController`.
 
 ```php
 class PostsController
@@ -544,6 +611,25 @@ class FavoritePostsController
 
 This is a loose guideline that doesn't need to be enforced.
 
+Controllers that aren't for CRUD operations, should be `invokeable`, so they should have only one `__invoke` method
+public, and others private methods if needed.
+
+```php
+class ApprovePostController
+{
+    public function __invoke(Post $post)
+    {
+        if (! request()->user()->can('approve', $post)) {
+            return response('Unauthorized to approve this post.', 403);
+        }
+    
+        $post->approve();
+
+        return response(null, 200);
+    }
+}
+```
+
 ## Views
 
 View files must use camelCase.
@@ -565,8 +651,8 @@ class OpenSourceController
 
 ## Validation
 
-When using multiple rules for one field in a form request, avoid using `|`, always use array notation.
-Using an array notation will make it easier to apply custom rule classes to a field.
+When using multiple rules for one field in a form request, avoid using `|`, always use array notation. Using an array
+notation will make it easier to apply custom rule classes to a field.
 
 ```php
 // good
@@ -585,7 +671,6 @@ public function rules()
     ];
 }
 ```
-
 
 All custom validation rules must use snake_case:
 
@@ -609,7 +694,7 @@ Don't add spaces after control structures.
 
 ```html
 @if($condition)
-    Something
+Something
 @endif
 ```
 
@@ -625,18 +710,18 @@ Gate::define('editPost', function ($user, $post) {
 
 ```html
 @can('editPost', $post)
-    <a href="{{ route('posts.edit', $post) }}">
-        Edit
-    </a>
+<a href="{{ route('posts.edit', $post) }}">
+    Edit
+</a>
 @endcan
 ```
 
-Try to name abilities using default CRUD words. One exception: replace `show` with `view`. 
-A server shows a resource, a user views it.
+Try to name abilities using default CRUD words. One exception: replace `show` with `view`. A server shows a resource, a
+user views it.
 
 ## Translations
 
-Translations must be rendered with the `__` function. We prefer using this over `@lang` 
+Translations must be rendered with the `__` function. We prefer using this over `@lang`
 in Blade views because `__` can be used in both Blade views and regular PHP code. Here's an example:
 
 ```php
@@ -645,44 +730,157 @@ in Blade views because `__` can be used in both Blade views and regular PHP code
 {!! __('newsletter.form.description') !!}
 ```
 
-## Naming Classes
+## Naming
 
-Naming things is often seen as one of the harder things in programming. That's why we've established 
-some high level guidelines for naming classes.
+Naming things is often seen as one of the harder things in programming. That's why we've established some high level guidelines for naming.
+
+### Naming symmetry
+
+Symmetry is a very important [factor in art](https://www.pencilkings.com/symmetry-in-art/). Our brain [is trained](https://www.futurity.org/symmetry-math-brains-956472/) to perceive the symmetry as something familiar and easy to remember. So let's reflect that in our code naming, as others will read our code easier. 
+
+See the difference: 
+
+```php
+// bad
+class GiveAGiftController
+{
+//
+}
+```
+
+```php
+// good
+class GiftsController
+{
+//
+}
+```
+
+Simply avoid short interjections or conjunctions (and, a) in the middle of the name:
+
+```php
+// bad
+public function deleteAnElement()
+```
+```php
+// good
+public function deleteElement()
+```
+
+Sometimes we can spend "precious" minutes looking for a good symmetric, still suggestive name, but it worth so. 
+
+There are some tools that might help with this task, you can use the [thesaurus](https://www.thesaurus.com/browse/approve) to find synonyms to a specific word. Say you need a synonym for the `approve` word. You can also use the [wordassociations](https://wordassociations.net/en/words-associated-with/approve) to find words from the same area, so you can use. I know, it takes some time, but you'll end up doing an extraordinary code.
+
+### Atoms
+
+Properties, variables and methods are the application atoms, the smallest pieces that combined creates the magic.
+
+#### Variables
+
+A generic rule is that the naming could be long, as soon as it's enough descriptive. Variables should say what they store: 
+
+```php
+// bad
+$data = collect([$post]);
+```
+
+```php
+// good
+$posts = collect([$post]);
+```
+
+#### Methods
+
+Methods should say what they do, and should not repeat the context they live in: 
+
+```php
+// Post.php model
+
+// bad
+public function approvePost() {
+//...
+}
+```
+
+```php
+// Post.php model
+
+// good
+public function approve() {
+//...
+}
+```
+
+You see, the `approve` method is placed into the `Post.php` model, so there is no reason to suffix it with the `Post` indicator.
+
+Set methods could not necessarily start with `set` as well as `getters` could not start with `get`. To benefit of a fluent and expressive API of your code, always return the `$this` and name setters as the property itself:
+
+```php
+class Post 
+{
+    public string $title;
+    
+    public function title(string $title): static
+    {
+        $this->title = $title;
+        
+        return $this;
+    }
+}
+```
+
+From our experience, getters aren't used to often, however, if you have to get the Post title you could make: 
+
+```php
+public function getTitle(): string
+{
+    return $this->title;
+}
+```
+
+Boolean methods: 
+
+
+```php
+public function isApproved() : bool
+{
+    return ! is_null($this->approved_at);
+}
+```
 
 ### Controllers
 
-Generally controllers are named by the plural form of their corresponding resource and a `Controller` suffix. 
-This is to avoid naming collisions with models that are often equally named.
+Generally controllers are named by the plural form of their corresponding resource and a `Controller` suffix. This is to
+avoid naming collisions with models that are often equally named.
 
 e.g. `UsersController` or `EventDaysController`
 
-When writing non-resourceful controllers you might come across invokable controllers that perform a single action.
-These can be named by the action they perform again suffixed by `Controller`.
+When writing non-resourceful controllers you might come across invokable controllers that perform a single action. These
+can be named by the action they perform again suffixed by `Controller`.
 
 e.g. `PerformCleanupController`
 
 ### Resources (and transformers)
 
-Both Eloquent resources and Fractal transformers are plural resources suffixed with 
+Both Eloquent resources and Fractal transformers are plural resources suffixed with
 `Resource` or `Transformer` accordingly. This is to avoid naming collisions with models.
 
 ### Jobs
 
-A job's name should describe its action.
+A job's name should describe its action and end with `Job`.
 
-E.g. `CreateUser` or `PerformDatabaseCleanup`
+E.g. `CreateUserJob` or `PerformDatabaseCleanupJob`
 
 ### Events
 
 Events will often be fired before or after the actual event. This should be very clear by the tense used in their name.
 
-E.g. `ApprovingLoan` before the action is completed and `LoanApproved` after the action is completed.
+E.g. `ApprovingLoanEvent` before the action is completed and `LoanApprovedEvent` after the action is completed.
 
 ### Listeners
 
-Listeners will perform an action based on an incoming event. Their name should reflect that action with
-a `Listener` suffix. This might seem strange at first but will avoid naming collisions with jobs.
+Listeners will perform an action based on an incoming event. Their name should reflect that action with a `Listener`
+suffix. This might seem strange at first but will avoid naming collisions with jobs.
 
 E.g. `SendInvitationMailListener`
 
@@ -694,7 +892,37 @@ e.g. `PublishScheduledPostsCommand`
 
 ### Mailables
 
-Again to avoid naming collisions we'll suffix mailables with `Mail`, as they're often used to convey an event, 
-action or question.
+Again to avoid naming collisions we'll suffix mailables with `Mail`, as they're often used to convey an event, action or
+question.
 
 e.g. `AccountActivatedMail` or `NewEventMail`
+
+#### Markdown
+
+The mailable class should render a markdown file:
+
+```php
+public function build()
+{
+    return $this->markdown('bladeFile');
+}
+```
+
+The common way of sending data through the markdown should be via [public class properties](https://laravel.com/docs/8.x/mail#via-public-properties). 
+
+
+The markdown file `bladeFile.blade.php` should follow few rules:
+
+1. It should not be indented. The indentation makes the email rendering ugly.
+
+2. It should use markdown components, for example if you have to add a button:
+
+```markdown
+@component('mail::button', ['url' => $url])
+View Order
+@endcomponent
+```
+
+That's because the mailable theme could be customized, so these components will adapt accordingly to the used theme.
+
+3. The markdown should avoid html tags as much as possible (ie div, p, a etc.). They are useless in markdown, and makes it hard to read.
