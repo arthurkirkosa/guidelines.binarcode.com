@@ -472,8 +472,135 @@ protected $casts = [
 These are the required fields to every model, the `$casts` one could be avoided if you really don't have anything to cast.
 
 ## Events
---
+
+[Events](https://laravel.com/docs/master/events#introduction) are just classes, that could be dispatched (fired) when a certain event happened in your application.
+
+An example of event could be the `OrderApprovedEvent`.
+
+### Naming
+
+Depending on the event dispatching time reported to the event itself the naming should be slightly different.
+
+Let's take the `order approval` process. 
+
+```php
+// OrdersController.php
+
+...
+
+event(new OrderApprovingEvent($order)); // before
+
+app(ApproveOrderAction::class)($order); // actual action event
+
+event(new OrderApprovedEvent($order)); // after 
+...
+```
+
+So the event that tells about something that should `immediately happen` should be called in a [gerund](https://en.wikipedia.org/wiki/Gerund)  form, whereas the event after the action happened should be called in the [past form](https://en.wikipedia.org/wiki/Past).
+
+To avoid collision we will suffix event classes with `Event`.
+
+### Class
+
+An event class should use constructor promotion and `SerializesModels` so queued events will still work properly:
+
+```php
+namespace App\Domains\Orders\Events\OrderApprovedEvent;
+
+use App\Domains\Orders\Models\Order;
+use Illuminate\Queue\SerializesModels;
+
+class OrderApprovedEvent
+{
+    use SerializesModels;
+
+    public function __construct(
+        public Order $order
+    ) { 
+    }
+}
+```
+
 ## Listeners
---
+
+[Event listeners](https://laravel.com/docs/master/events#queued-event-listeners) are classes that handles certain events and perform specific actions. Say we have to send a notification email as soon the order was approved:
+
+### Naming
+
+The name of the listener name should be in active (imperative) form, and say what it does. For example: `SendApprovalNotificationListener`. 
+
+### Class
+
+Usually the listener should be queued, so it should implement the `ShouldQueue` contract:
+
+```php
+use App\Domains\Orders\Events\OrderApprovedEvent;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class SendApprovalNotificationListener implements ShouldQueue
+{
+    public function handle(OrderApprovedEvent $event)
+    {
+        //
+    }
+}
+```
+
 ## Dto
---
+
+Data transfer objects (or dto) are one of the most powerful wires, that links the application layer with the domain layer, and much more. 
+
+The DTO is a variation of an [value object](https://martinfowler.com/bliki/ValueObject.html) class, that encapsulate certain data and send it along the application.
+
+A basic example of a Dto could be a class with some public properties. Let's take the example with [custom collection](#custom-collections) and create the `CheckoutItemDto` class:
+
+```php
+final class CheckoutItemDto 
+{
+    public function __construct(
+        public string $productUuid,
+        public int $quantity,
+    ) {
+    }
+}
+```
+
+So instead of sending the plain array: 
+
+```json
+{"product_uuid":  "9BFC0AC6-4F4D-4E3C-973D-26DA17B3F8B0", "quantity":  1}
+```
+
+We will pass fully qualified dto classes. 
+
+### Why?
+
+Dto help us to: 
+
+- keep consistent data
+- validate certain properties [using attributes](https://www.php.net/manual/en/language.attributes.overview.php) 
+- extend the class with public or private methods
+
+### Spatie Dto
+
+We're using the [Spatie's dto library](https://github.com/spatie/data-transfer-object), that handles the object construction, validation and casts, so the class will basically look like this: 
+
+```php
+use Spatie\DataTransferObject\DataTransferObject;
+
+final class CheckoutItemDto extends DataTransferObject
+{
+        public string $productUuid,
+        
+        public int $quantity,
+}
+```
+
+So you can instantiate it using:
+
+```php
+new CheckoutItemDto(
+    productUuid: data_get($item, 'product_uuid'),
+    quantity: data_get($item, 'product_quantity')
+)
+```

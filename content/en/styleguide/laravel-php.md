@@ -18,13 +18,28 @@ should use camelCase. Detailed examples on these are spread throughout the guide
 
 ### Class defaults
 
-By default, we don't use `final`. For our open source stuff, we assume that all our users know they are responsible for
-writing tests for any overridden behaviour.
+By default, we don't use `final`. For our open source stuff, we assume that all our users know they are responsible for writing tests for any overridden behaviour.
+
+For the internal projects dto and enum classes should use `final`.
 
 ### Void return types
 
 If a method return nothing, it should be indicated with `void` return type. This makes it more clear to the users of your code what
 your intention was when writing it.
+
+### Array access
+
+Strictly avoid array property access: 
+
+```php
+$items['name']
+```
+
+Use the: 
+
+````php
+data_get($items, 'name')
+````
 
 ## Typed properties
 
@@ -564,14 +579,14 @@ class PostsController
 
     public function favorite(Post $post)
     {
-        request()->user()->favorites()->attach($post);
+        app(AttachUserFavouritePostAction::class)(Auth::user(), $post);
 
         return response(null, 200);
     }
 
     public function unfavorite(Post $post)
     {
-        request()->user()->favorites()->detach($post);
+        app(DetachUserFavouritePostAction::class)(Auth::user(), $post);
 
         return response(null, 200);
     }
@@ -585,14 +600,14 @@ class FavoritePostsController
 {
     public function store(Post $post)
     {
-        request()->user()->favorites()->attach($post);
+        app(AttachUserFavouritePostAction::class)(Auth::user(), $post);
 
         return response(null, 200);
     }
 
     public function destroy(Post $post)
     {
-        request()->user()->favorites()->detach($post);
+        app(DetachUserFavouritePostAction::class)(Auth::user(), $post);
 
         return response(null, 200);
     }
@@ -618,6 +633,18 @@ class ApprovePostController
         return response(null, 200);
     }
 }
+```
+
+### Requests
+
+Accessing a request property should always happen by using the `input` or `collect` request methods: 
+
+```php
+$request->input('name')
+```
+
+```php
+$request->collect()->
 ```
 
 ## Views
