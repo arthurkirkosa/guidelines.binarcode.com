@@ -5,13 +5,13 @@ position: 5
 category: 'Style Guide'
 ---
 
-## Domain Driven Design
+# Domain Driven Design
 
 The architectural design we adopted is DDD. The design is highly inspired from the [beyond CRUD](https://spatie.be/products/laravel-beyond-crud) spatie's book.
 
 Bellow we will define how the file structure looks like, how to create a new domain, and how to manage Application layer vs Domain layer.
 
-## Domain layer
+# Domain layer
 
 This is how the application folder structure looks like for the domains:
 
@@ -23,7 +23,7 @@ This is how the application folder structure looks like for the domains:
             ApprovePostAction.php
             ...
         - States
-        - Builders
+        - QueryBuilders
         - Collections
         - Enums
         - Models
@@ -42,11 +42,11 @@ Few rules for domains:
 
 Let's take each folder in part and document it.
 
-### Actions
+## Actions
 
 The action, is a single method class. Usually the method name is the [magic `__invoke`](https://www.php.net/manual/en/language.oop5.magic.php#object.invoke) method. 
 
-#### Naming
+### Naming
 
 Actions should be called in [imperative mood](https://en.wikipedia.org/wiki/Imperative_mood) and should end with `Action` suffix. Examples: `ApproveItemAction`, `AttachUserRolesAction`, `ConvertFileAction` etc.
 
@@ -74,7 +74,7 @@ either concatenated by a `with`:
 class AttachCompanyUserWithRoleAction
 ```
 
-#### Resolving
+### Resolving
 
 The action classes should be resolved from the [laravel container](https://laravel.com/docs/master/container#introduction) using the `app(ApprovePostAction::class)` helper, or injecting class into another constructor that's resolvable by the container:
 
@@ -90,7 +90,7 @@ so you can call it as:
 ($this->approvePostAction)($post);
 ```
 
-### States
+## States
 
 The state pattern is one of the best ways to add state-specific behaviour to models, while still keeping them clean.
 
@@ -114,7 +114,7 @@ Now, considering we might have various states (post approval states, post delive
                 - OrderRejectedState.php
 ```
 
-#### When 
+### When 
 
 We don't have to implement the state pattern all the time. They are really handy for cases where you have to implement specific logic in a certain state.
 
@@ -155,3 +155,76 @@ The first one, you cannot scale horizontally. Say you have a new `delivery` stat
 The second one is related to the readability, your model class become very fat. And generally saying, the model should care about the data, not about the business. 
 
 States covers both limitations, and they add a beautiful API, so you can easily add a new state and implement all the methods your state configurator requires.
+
+## Query Builders
+
+`QueryBuilders` folder could store a list of custom query builders. 
+
+### Builder class
+
+Let's start with [the technique](https://dev.to/rocksheep/cleaner-models-with-laravel-eloquent-builders-12h4) of registering a custom Eloquent Builder for a model.
+
+The Builder class should extend the main eloquent builder: 
+
+```php
+namespace App\Domains\Posts\QueryBuilders;
+
+use Illuminate\Database\Eloquent\Builder;
+
+class PostQueryBuilder extends Builder
+{
+    public function published(): self
+    {
+        return $this->whereNotNull('published_at');
+    }
+    
+    //
+}
+```
+
+```php
+// Post.php
+public function newEloquentBuilder($query): PostQueryBuilder
+{
+    return new PostQueryBuilder($query);
+}
+```
+
+Having this mechanism, we basically added a `scopePublished` laravel [local scopes](https://laravel.com/docs/master/eloquent#local-scopes) to our `Post` model: 
+
+````php
+Post::query()->published()->get();
+````
+
+Since now the `Post::query()` method returns an instance of a custom builder, let's instruct the model using PHPDoc about that, so we can benefit of IDE autocompletion: 
+
+```php
+/**
+ * @method static PostQueryBuilder query()
+ */
+class Post extends Model
+{}
+```
+
+### Custom queries
+
+We might have other custom queries, that contain a domain specific logic: 
+
+```php
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\Builder;
+
+class OrderDeliveryQuery
+{
+    public function __invoke(Relation|Builder $query): Relation|Builder
+    {
+        return $query
+        ->where(...
+    }
+}
+```
+So you can invoke this from a custom query or relation: 
+
+```php
+app(OrderDeliveryQuery::class)($user->posts())
+```

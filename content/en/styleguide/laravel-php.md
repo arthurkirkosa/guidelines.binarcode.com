@@ -1,15 +1,14 @@
 ---
 title: Laravel & PHP
-description: 'A style guide establishes standard style requirements to improve communication by ensuring consistency both within a document, and across multiple documents.' 
-position: 4 
+description: 'A style guide establishes standard style requirements to improve communication by ensuring consistency both within a document, and across multiple documents.'
+position: 4
 category: 'Style Guide'
 ---
 
 ## About Laravel
 
-First and foremost, Laravel provides the most value when you write things the way Laravel intended you to write. If
-there's a documented way to achieve something, follow it. Whenever you do something differently, make sure you have a
-justification for *why* you didn't follow the defaults.
+First and foremost, Laravel provides the most value when you write things the way Laravel intended you to write them.
+If there's a documented way to achieve something, follow it. Whenever you do something differently, make sure you have a justification for *why* you didn't follow the defaults.
 
 ## General PHP Rules
 
@@ -20,11 +19,11 @@ should use camelCase. Detailed examples on these are spread throughout the guide
 ### Class defaults
 
 By default, we don't use `final`. For our open source stuff, we assume that all our users know they are responsible for
-writing tests for any overwritten behaviour.
+writing tests for any overridden behaviour.
 
 ### Void return types
 
-If a method return nothing, it should be indicated with `void`. This makes it more clear to the users of your code what
+If a method return nothing, it should be indicated with `void` return type. This makes it more clear to the users of your code what
 your intention was when writing it.
 
 ## Typed properties
@@ -33,37 +32,28 @@ You should type a property whenever possible. Don't use a docblock. As we're usi
 supported, you can use `mixed` if you're not sure about the type.
 
 ```php
-// good
-class Foo
-{
-    public string $bar;
-}
-
 // bad
 class Foo
 {
     /** @var string */
     public $bar;
 }
+
+// good
+class Foo
+{
+    public string $bar;
+}
 ```
 
 ## Docblocks
 
-Don't use docblocks for methods that can be fully type hinted (unless you need a description).
+Don't use docblocks for methods that can be fully type hinted (unless you want to add a description).
 
-Only add a description when it provides more context than the method signature itself. Use full sentences for
+Only add a descriptions when it provides more context than the method signature or name. Use full sentences for
 descriptions, including a period at the end.
 
 ```php
-// Good
-class Url
-{
-    public static function fromString(string $url): Url
-    {
-        // ...
-    }
-}
-
 // Bad: The description is redundant, and the method is fully type-hinted.
 class Url
 {
@@ -79,53 +69,57 @@ class Url
         // ...
     }
 }
+
+// Good
+class Url
+{
+    public static function fromString(string $url): Url
+    {
+        // ...
+    }
+}
 ```
 
 Always use fully qualified class names in docblocks.
 
 ```php
-// Good
-
-/**
- * @param string $url
- *
- * @return \BinarCode\Url\Url
- */
-
 // Bad
-
 /**
  * @param string $foo
  *
  * @return Url
  */
+
+// Good
+/**
+ * @param string $url
+ *
+ * @return \BinarCode\Url\Url
+ */
 ```
 
 When possible, docblocks should be written on one line.
 
-```php
-// Good
-
-/** @var string */
-/** @test */
 
 // Bad
-
 /**
  * @test
  */
+
+```php
+// Good
+/** @var string */
+/** @test */
 ```
 
 If a variable has multiple types, the most common occurring type should be first.
 
 ```php
-// Good
-
-/** @var \BinarCode\Goo\Bar|null */
-
 // Bad
-
 /** @var null|\BinarCode\Goo\Bar */
+
+// Good
+/** @var \BinarCode\Goo\Bar|null */
 ```
 
 ## Constructor property promotion
@@ -160,7 +154,6 @@ clean diffs when traits are added or removed.
 
 ```php
 // Good
-
 class MyClass
 {
     use TraitA;
@@ -170,7 +163,6 @@ class MyClass
 
 ```php
 // Bad
-
 class MyClass
 {
     use TraitA, TraitB;
@@ -257,16 +249,15 @@ returns. This will also cause the happy path to go last, which is desirable.
 
 ```php
 // Good
-
 if (! $conditionBA) {
    // conditionB A failed
-   
+
    return;
 }
 
 if (! $conditionB) {
    // conditionB A passed, B failed
-   
+
    return;
 }
 
@@ -275,7 +266,6 @@ if (! $conditionB) {
 
 ```php
 // Bad
-
 if ($conditionA) {
    if ($conditionB) {
       // condition A and B passed
@@ -311,7 +301,7 @@ if (! $conditionC) {
 ```
 
 ```php
-// bad
+// Bad
 if ($conditionA && $conditionB && $conditionC) {
   // do stuff
 }
@@ -523,11 +513,11 @@ Route::get('news/{newsItem}', 'NewsItemsController@index');
 A route url should not start with `/` unless the url would be an empty string.
 
 ```php
-// good
+// Good
 Route::get('/', 'HomeController@index');
 Route::get('open-source', 'OpenSourceController@index');
 
-//bad
+// Bad
 Route::get('', 'HomeController@index');
 Route::get('/open-source', 'OpenSourceController@index');
 ```
@@ -622,7 +612,7 @@ class ApprovePostController
         if (! request()->user()->can('approve', $post)) {
             return response('Unauthorized to approve this post.', 403);
         }
-    
+
         $post->approve();
 
         return response(null, 200);
@@ -655,7 +645,7 @@ When using multiple rules for one field in a form request, avoid using `|`, alwa
 notation will make it easier to apply custom rule classes to a field.
 
 ```php
-// good
+// Good
 public function rules()
 {
     return [
@@ -663,7 +653,7 @@ public function rules()
     ];
 }
 
-// bad
+// Bad
 public function rules()
 {
     return [
@@ -736,9 +726,9 @@ Naming things is often seen as one of the harder things in programming. That's w
 
 ### Naming symmetry
 
-Symmetry is a very important [factor in art](https://www.pencilkings.com/symmetry-in-art/). Our brain [is trained](https://www.futurity.org/symmetry-math-brains-956472/) to perceive the symmetry as something familiar and easy to remember. So let's reflect that in our code naming, as others will read our code easier. 
+Symmetry is a very important [factor in art](https://www.pencilkings.com/symmetry-in-art/). Our brain [is trained](https://www.futurity.org/symmetry-math-brains-956472/) to perceive the symmetry as something familiar and easy to remember. So let's reflect that in our code naming, as others will read our code easier.
 
-See the difference: 
+See the difference:
 
 ```php
 // bad
@@ -767,7 +757,7 @@ public function deleteAnElement()
 public function deleteElement()
 ```
 
-Sometimes we can spend "precious" minutes looking for a good symmetric, still suggestive name, but it worth so. 
+Sometimes we can spend "precious" minutes looking for a good symmetric, still suggestive name, but it worth so.
 
 There are some tools that might help with this task, you can use the [thesaurus](https://www.thesaurus.com/browse/approve) to find synonyms to a specific word. Say you need a synonym for the `approve` word. You can also use the [wordassociations](https://wordassociations.net/en/words-associated-with/approve) to find words from the same area, so you can use. I know, it takes some time, but you'll end up doing an extraordinary code.
 
@@ -777,7 +767,7 @@ Properties, variables and methods are the application atoms, the smallest pieces
 
 #### Variables
 
-A generic rule is that the naming could be long, as soon as it's enough descriptive. Variables should say what they store: 
+A generic rule is that the naming could be long, as soon as it's enough descriptive. Variables should say what they store:
 
 ```php
 // bad
@@ -791,7 +781,7 @@ $posts = collect([$post]);
 
 #### Methods
 
-Methods should say what they do, and should not repeat the context they live in: 
+Methods should say what they do, and should not repeat the context they live in:
 
 ```php
 // Post.php model
@@ -816,20 +806,20 @@ You see, the `approve` method is placed into the `Post.php` model, so there is n
 Set methods could not necessarily start with `set` as well as `getters` could not start with `get`. To benefit of a fluent and expressive API of your code, always return the `$this` and name setters as the property itself:
 
 ```php
-class Post 
+class Post
 {
     public string $title;
-    
+
     public function title(string $title): static
     {
         $this->title = $title;
-        
+
         return $this;
     }
 }
 ```
 
-From our experience, getters aren't used to often, however, if you have to get the Post title you could make: 
+From our experience, getters aren't used to often, however, if you have to get the Post title you could make:
 
 ```php
 public function getTitle(): string
@@ -838,7 +828,7 @@ public function getTitle(): string
 }
 ```
 
-Boolean methods: 
+Boolean methods:
 
 
 ```php
@@ -908,7 +898,7 @@ public function build()
 }
 ```
 
-The common way of sending data through the markdown should be via [public class properties](https://laravel.com/docs/8.x/mail#via-public-properties). 
+The common way of sending data through the markdown should be via [public class properties](https://laravel.com/docs/8.x/mail#via-public-properties).
 
 
 The markdown file `bladeFile.blade.php` should follow few rules:
