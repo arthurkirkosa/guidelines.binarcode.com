@@ -228,3 +228,252 @@ So you can invoke this from a custom query or relation:
 ```php
 app(OrderDeliveryQuery::class)($user->posts())
 ```
+
+## Collections
+
+Using custom [laravel collections](https://laravel.com/docs/8.x/collections) is a very powerful technique to ensure your code is fluent and readable.
+
+### Model collection
+
+Using the mindset of a custom [query model query builder](#builder-class), we can also provide custom collection classes for relations. Laravel has great collection support, though you often end up with long chains of collection functions either in the model or in the application layer. This again isn't ideal, and luckily Laravel provides us with the needed hooks to bundle collection logic into a dedicated class.
+Here's an example of a custom collection class, and note that it's entirely possible to combine several methods into new ones, avoiding long function chains in other places.
+
+```php
+namespace App\Domains\Orders\Collections;
+
+use Illuminate\Database\Eloquent\Collection;
+
+class OrderCollection extends Collection
+{
+    public function notVirtual(): self
+    {
+        return $this->reject(fn (Item $item) => $item->is_virtual);
+    }
+}
+```
+
+### Custom collections
+
+A custom collection is a simple class that extends the `Illuminate\Support\Collection` and implement custom methods. Let's imagine we have a checkout endpoint, and that sends an array with products `uuids` the user wants to buy: 
+
+```json
+[
+  {"product_uuid":  "B22D34F3-965C-41CD-9977-CD8EE6ACD0B8", "quantity":  2},
+  {"product_uuid":  "9BFC0AC6-4F4D-4E3C-973D-26DA17B3F8B0", "quantity":  1}
+]
+```
+
+It would be very useful if we could transform this json into a typed collection of items, let's do that: 
+
+```php
+use Illuminate\Support\Collection;
+
+class CheckoutItemsCollection extends Collection
+{
+    public static function makeFromBag(array $productsBag): self
+    {
+        return new static($productsBag);
+    }
+    
+    public function mapIntoCheckoutItem(): self
+    {
+        return $this->map(fn(array $item) => new CheckoutItem(...$item));
+    }
+}
+```
+
+Now we can easily manipulate this collection, say transform these items into a `Dto`: 
+
+```php
+// CheckoutController.php
+
+CheckoutItemsCollection::makeFromBag($request->input('products'))
+->mapIntoCheckoutItem()
+```
+
+Following the same mindset, we can create as many collections we need, and load them with custom public methods, that always return the same `self` instance, so we can chain the call.
+
+## Enums
+
+Enum are special final classes that stores list of static values. 
+
+### MyClabs Enum
+
+Until the [PHP8.1 built in enums](https://php.watch/versions/8.1/enums) is ready, we're enforced to use open source packages. The [MyClabs enum](https://github.com/myclabs/php-enum) is the most popular one, and we should use almost everywhere: 
+
+```php
+namespace App\Domains\Users\Enums;
+
+use MyCLabs\Enum\Enum;
+
+final class RoleEnum extends Enum
+{
+    public const admin = 'admin';
+    public const guest = 'guest';
+    public const publisher = 'publisher';
+}
+```
+
+### Spatie Enum
+
+The Spatie's `spatie/laravel-enum` [library](https://spatie.be/docs/enum/v3/usage/100-laravel#breadcrumb) is useful if we have to deal with [model cast](https://laravel.com/docs/master/eloquent-mutators#introduction), as the package allows that built in.
+
+```php
+namespace App\Domains\Users\Enums\RoleEnum;
+
+use Spatie\Enum\Laravel\Enum;
+
+/**
+ * @method static self admin()
+ * @method static self guest()
+ * @method static self publisher()
+ */
+final class RoleEnum extends Enum
+{}
+```
+
+#### Limitations
+
+As it stores the value only, there is a limitation, it doesn't allow you to easily customize the `label` for the enum. You have to copy the PHPDoc values into a static `labels` method. But, you have to repeat yourself there, and this [is not a good practice](https://deviq.com/principles/dont-repeat-yourself).
+
+Say you have to store a list of products `uuids`: 
+
+```php
+/**
+ * @method static self analysis()
+ * @method static self coq10()
+ * @method static self mfs()
+ * ...
+ */
+final class ProductUuidEnum extends Enum
+{
+    public static function labels(): array
+    {
+        return [
+            'analysis' => '9BFC0AC6-4F4D-4E3C-973D-26DA17B3F8B0',
+            'coq10' => '8BFC0AC6-4F4D-4E3C-973D-26DA17B3F8B0',
+            'mfs' => '7BFC0AC6-4F4D-4E3C-973D-26DA17B3F8B0',
+            //...
+        ];
+    }
+}
+```
+
+
+And then, if you have to access a specific product uuid, we have to use: 
+
+```php
+ProductUuidEnum::analysis()->label
+```
+
+Another limitation is that you cannot use the `uuid` or any other value starting with a number as a PHPDoc `method` syntax in this case. And considering we're using enums quite often for aliasing, this becomes quite a big limitation. 
+
+## Models
+
+The `models` folder includes the main domain Model, say `Order.php` in our case. 
+
+### Model class
+
+The model class should always define few things: 
+
+- [Table name](https://laravel.com/docs/master/eloquent#table-names)
+
+```php
+    protected $table = 'orders';
+```
+
+- [Fillable fields](https://laravel.com/docs/master/eloquent#mass-assignment)
+
+We don't rely on `$guarded = []`, instead we want to explicitly define what attributes are `fillable`.
+
+```php
+    protected $fillable = [
+        'uuid',
+        'price',
+        ...
+    ];
+```
+
+- PHPDoc including fillables
+
+Models resolve database properties magically using the [`__get`](https://www.php.net/manual/en/language.oop5.overloading.php#object.get) method. Considering our IDE or [static analyzer](https://github.com/nunomaduro/larastan) doesn't know anything about these properties, we have to explicitly define those into the PHPDoc: 
+
+```php
+/**
+ * Class Order
+ * 
+ * @property int $id
+ * @property string $uuid
+ * @property float $price
+ *
+ * @package App\Models
+ */
+class Order extends Model
+{} 
+```
+
+As we know Laravel perform lazy loading if we [access a relationship as a property](https://laravel.com/docs/master/eloquent-relationships#relationship-methods-vs-dynamic-properties). But again, the static analyzer doesn't know about this `magic`, so 
+we have to instruct it by adding a PHPDoc definition for every single relationship. 
+
+Say our model has a `belongsTo` and a `hasMany` relationship: 
+
+```php
+public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+{
+    return $this->belongsTo(User::class);
+}
+
+public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
+{
+    return $this->hasMany(Item::class);
+}
+```
+
+These properties should be `read` mode:
+
+```php
+/**
+* @property-read User|null $user
+* @property-read \Illuminate\Database\Eloquent\Collection $items
+ */
+class Order extends Model
+{
+    //
+}
+```
+
+Lately, if you define custom [local scopes](https://laravel.com/docs/master/eloquent#local-scopes) or any other `magic` methods, they should be added in the PHPDoc: 
+
+```php
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder|Order active()
+ */
+class Order extends Model
+{
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+}
+```
+
+- [Cast](https://laravel.com/docs/master/eloquent-mutators#attribute-casting)
+
+Casts are very important to be added, so we can manipulate data in a typed/structured way: 
+
+```php
+protected $casts = [
+    'user_id' => 'int',
+    'active' => 'boolean',
+    'shipping_address' => ShippingAddressCast::class,
+];
+```
+
+These are the required fields to every model, the `$casts` one could be avoided if you really don't have anything to cast.
+
+## Events
+--
+## Listeners
+--
+## Dto
+--
