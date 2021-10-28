@@ -2,7 +2,7 @@
 title: DNS Lookup
 description: 'DNS Lookup tool finds all DNS records of a given domain name.'
 position: 10
-category: 'Backend Hints'
+category: 'DevOps'
 ---
 
 `host` is a very useful MacOs command, it helps you to lookup for any DNS record right from your terminal. 

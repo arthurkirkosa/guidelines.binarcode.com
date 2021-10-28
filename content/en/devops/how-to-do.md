@@ -1,8 +1,8 @@
 ---
-title: Upload large media files
+title: Upload large files
 description: 'How to upload large media files'
 position: 9
-category: 'Backend Hints'
+category: 'DevOps'
 ---
 
 

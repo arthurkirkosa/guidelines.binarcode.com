@@ -1,8 +1,8 @@
 ---
-title: Resize the filesystem of a forge ubuntu machine
+title: Resize filesystem
 description: 'How to resize the filesystem of a forge ubuntu machine'
 position: 11
-category: 'Backend Hints'
+category: 'DevOps'
 ---
 
 Prerequisites:

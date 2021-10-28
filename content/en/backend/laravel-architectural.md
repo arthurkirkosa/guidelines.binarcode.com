@@ -1,8 +1,8 @@
 ---
-title: Laravel ddd
+title: Domains
 description: 'Architectural domain driven design'
 position: 5
-category: 'Style Guide'
+category: 'Backend'
 ---
 
 # Domain Driven Design

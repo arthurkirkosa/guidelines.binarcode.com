@@ -22,9 +22,20 @@ reportingList:
 regressionList:
 - After a bug/task is marked as "Ready for QA" and is re-tested, all the components that might be affected by it, are also re-tested.
 - In case of discrepancies between expected vs actual results, the tickets are either returned to the development team or new tickets are raised
+testingList:
+- After going live the QA SHOULD  test ONLY Staging environment in CRUD mode (editing, adding, deleting resources)
+- QA - SHOULD test the production environment ONLY in READ mode
+- QA SHOULD NOT add any personal details, or remove any other data from the production
+- QA SHOULD report any bug in the backlog with the following format
+
 ---
 
 Procedure to test a project. Technical and management aspects.
+
+## Post production QA
+<base-list :list="testingList"></base-list>
+
+<img src="/img-api-ci/bug-report-format.png" width="480" height="480" alt="Bug Report Format"/>
 
 ## Setup for projects already in progress or for new projects
 <base-list :list="newProjectsList"></base-list>
