@@ -113,3 +113,34 @@ However, you can always attach it to the model, using the `$append` model proper
 ```php
 protected $appends = ['name'];
 ```
+
+### Avoid appending relationships
+
+Considering the `$append` attributes will be loaded everytime the model has read from the database, we should not have appended relationships:
+
+```php
+class Order extends Model
+{
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class);
+    }
+    
+    public function getItemsCountAttribute(): count
+    {
+        return $this->items()->count();
+    }
+}
+```
+
+Never append the `items_count` attribute, because it will have to do a mysql query to get the list of items everytime you retrieve the order from the database.
+
+Instead, we can use append this dynamically where we really need that: 
+
+```php
+$orders = Orders::query()
+->get()
+->append('items_count')
+```
+
+So it will append the attribute to the orders collection dynamically.
