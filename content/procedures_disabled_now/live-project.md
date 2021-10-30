@@ -3,6 +3,7 @@ title: Going Live
 description: 'Go-live is the time at which something becomes available for use. In software development, go-live is the point at which code moves from the test environment to the production environment.'
 position: 7
 category: 'Procedures'
+
 testsList:
 - Desktop:<span> test on latest versions of Chrome, IE/Edge, Firefox, Safari</span>
 - Mobile:<span> test on latest versions of Mobile Safari, Android</span>
@@ -88,13 +89,6 @@ serverList:
 githubList:
 - Remove <code>develop</code> branch or other stale branches
 
-testingList:
-- After going live the QA SHOULD  test ONLY Staging environment in CRUD mode (editing, adding, deleting resources)
-- QA - SHOULD test the production environment ONLY in READ mode
-- QA SHOULD NOT add any personal details, or remove any other data from the production
-- QA SHOULD report any bug in the backlog with the following format
-
-
 ---
 
 ## Browserstack tests
@@ -140,9 +134,4 @@ testingList:
 
 ### Github
 <base-list :list="githubList"></base-list>
-
-## Testing & QA
-<base-list :list="testingList"></base-list>
-
-<img src="/img-api-ci/bug-report-format.png" width="480" height="480" alt="Bug Report Format"/>
 

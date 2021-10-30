@@ -168,3 +168,158 @@ The content coult be similar like this:
 - [ ] DevOps
 - [ ] Testing
 ```
+
+## Pull & Rebase
+In some situation when you create a new branch `A`
+from master and after some time your branch is not up-to-date with master
+and you should update your branch with master we usually use
+`git merge origin master` or `git pull origin master` and that's fine.
+But it doesn't keep the commits history clean, so we would use:  `git pull origin master --rebase`
+In this case repo will be cleaner and commits will be always on top of tree, and the merge commit will not be in the commits history.
+
+For instance without `--rebase`:
+```
+36fb8d42 Commit 3
+961fcb20 Merge pull request #681 from project/revert-649-lab/cryo-tracker-retrieval
+36fb8d43 Commit 2
+36fb8d41 Commit 2
+```
+
+with rebase:
+
+```
+36fb8d42 Commit 3
+36fb8d43 Commit 2
+36fb8d41 Commit 2
+```
+
+### Squash
+We should avoid having a lot of commits like this:
+```
+36fb8d42 WIP
+961fcb20 Fix
+36fb8d43 WIP
+36fb8d41 WIP
+36fb8d40 Initial commit
+```
+
+The squash combine multiple commits into single one. For example we choose starter commit (36fb8d40)
+`git rebase -i 36fb8d40`
+and we will see
+
+```
+pick 36fb8d40 Initial commit
+pick 36fb8d41 WIP
+pick 36fb8d42 WIP
+pick 961fcb20 Fix
+pick 36fb8d43 WIP
+
+# Rebase 961fcb20..4e10c2a4 onto 46e5d33b (5 commands)
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup <commit> = like "squash", but discard this commit's log message
+# x, exec <command> = run command (the rest of the line) using shell
+
+```
+
+And we replace `pick` word with `s`. Notes: `r` or `reword` will change commit message:
+
+```
+pick 36fb8d40 Initial commit
+s 36fb8d41 WIP
+s 36fb8d42 WIP
+r 961fcb20 Fix
+s 36fb8d43 WIP
+```
+
+After saving the new window will appear to set messages for:
+```
+# This is a combination of 3 commits.
+# This is the 1st commit message:
+
+WIP
+
+# This is the commit message #2:
+
+WIP
+
+# This is the commit message #3:
+
+WIP
+
+```
+
+We delete everything and put our message.
+
+After saving we can have results like this
+```
+36fb8d42 Last commit
+961fcb20 Fix Tests
+36fb8d40 Initial commit
+```
+When we want to merge PR's we can use squash and merge from dropdown on github.
+![img.png](img.png)
+
+### Ammend
+The ammend command will add new files to the previous commit.
+Let's assume that we have:
+
+```36fb8d42 First commit```
+
+if we forgot to remove `dump` or we have a typo.
+Instead of creating new commit:
+```
+36fb8d44 Remove dump
+36fb8d43 Fix typo
+36fb8d42 First commit
+```
+
+We can simply ammend (concatenate) the changes:
+```
+git add .
+git commit --ammend
+```
+
+a new window will appear to change the last commit's message.
+If we don't need to change the message we can use:
+
+```git commit --ammend --no-edit```
+
+The three will be much cleaner now:
+
+```36fb8d42 First commit```
+
+## Releases
+
+GitHub releases are basically a production ready version.
+
+Name of the release should be [semver](https://semver.org/) compliant.
+
+Version name & title should be in this format: *X.Y.Z* where:
+
+X - MAJOR version when you make incompatible API changes,
+
+Y - MINOR version when you add functionality in a backwards compatible manner, and
+
+Z - PATCH version when you make backwards compatible bug fixes.
+
+
+The release text should include 3 keywords: Fixed, Added, Tech.
+
+```md
+# Added
+
+- Something added #PR
+
+# Fixed
+
+- Something fixed #PR
+
+# Tech
+
+- Something from tech #PR
+```

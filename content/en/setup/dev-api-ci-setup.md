@@ -1,5 +1,5 @@
 ---
-title: API CI (Continuous integration)
+title: Server
 description: 'Continuous integration (CI) is the practice of automating the integration of code changes from multiple contributors into a single software project.'
 position: 3
 category: Setup
