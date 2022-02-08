@@ -15,32 +15,23 @@ category: Setup
 
 ## Laravel API setup
 
-1. Usually the [documentation](https://laravel.com/docs/7.x#installation) should be enough for installation
+1. Usually the [documentation](https://laravel.com/docs#installation) should be enough for installation
 2. Install [Laravel Restify](https://restify.binarcode.com/docs/3.0/quickstart.html)
 3. Install [Laravel Nova](https://nova.laravel.com/docs/3.0/installation.html)
 4. Laravel Restify and Nova should use BinarCode sources.
 
 
-## Laravel Restify Internal
+## Laravel Restify
+
+For documentation [see this](https://restify.binarcode.com/).
+
 Add in `composer.json`:
-```json
-"repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:BinarCode/laravel-restify.git"
-        }
-    ]
+
 ```
-And: 
-```json
-"require": {
-    "php": "^7.4",
-    "binaryk/laravel-restify": "3.x-dev",
-    ...  
-}
+composer require binaryk/laravel-restify
 ```
 
-Run: `composer update`.
+Setup [docs here](https://restify.binarcode.com/quickstart).
 
 ## Laravel Nova Internal
 Add in `composer.json`:

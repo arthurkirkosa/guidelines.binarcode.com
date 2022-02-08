@@ -144,3 +144,51 @@ $orders = Orders::query()
 ```
 
 So it will append the attribute to the orders collection dynamically.
+
+## Ensure Database Loaded
+[Ensure Database Loaded](https://laravel.com/docs/ensure-database-loaded) is used to sync database with what we need. The main command can be found in `app/Console/Commands/EnsureDatabaseStateLoadedCommand.php`
+In the handle method we put our classes with `__invoke` function.
+
+This command will be run on each fresh of database (check composer.json)
+```"fresh": "php artisan migrate:fresh --seed && php artisan ensure-database-state-is-loaded",```
+
+```
+public function handle(): int
+{
+    collect([
+
+        // This is indeed not imported with use to explain the source. Similar with `app.php -> providers`
+        new \Database\State\EnsureCoQ10ProductPresent,
+        new \Database\State\EnsureCustomerDeliveryMethodMailPresent,
+        new \Database\State\EnsureRolesPresent,
+
+    ])->each->__invoke();
+
+    return 0;
+}
+```
+
+For example: `EnsureCoQ10ProductPresent.php` checks if database contains product with uuid `COQ10_UUID`.
+Don't forget to add `present` method to avoid duplicated items in database.
+
+```
+class EnsureCoQ10ProductPresent
+{
+    public function __invoke()
+    {
+        if ($this->present()) {
+            return;
+        }
+
+        Product::query()->create([
+            "uuid" => Product::COQ10_UUID,
+            "title" => "CoQ10 supplements",
+        ]);
+    }
+
+    public function present(): bool
+    {
+        return Product::query()->whereUuid(Product::COQ10_UUID)->exists();
+    }
+}
+```
